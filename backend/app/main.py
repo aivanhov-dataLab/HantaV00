@@ -13,6 +13,11 @@ from app.db.database import engine, Base
 # détecte automatiquement la table patients
 from app.models.patient import Patient
 
+# Importer le user dans main.py
+from app.models.user import User
+
+# Add route auth to main.py
+from app.api.routes import auth
 
 # Création automatique des tables SQL
 Base.metadata.create_all(bind=engine)
@@ -28,6 +33,8 @@ app = FastAPI(
 
 # Enregistrement des routes patients
 app.include_router(patients_router)
+# Inclureles route auth
+app.include_router(auth.router)
 
 
 # Route principale API

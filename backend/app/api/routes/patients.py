@@ -5,6 +5,9 @@ from fastapi import (
     HTTPException
 )
 
+# protect patients route
+from app.auth.dependencies import get_current_user
+
 # SQLAlchemy session
 from sqlalchemy.orm import Session
 
@@ -54,6 +57,9 @@ def create_new_patient(
     response_model=list[PatientResponse]
 )
 def read_patients(
+
+    current_user = Depends(get_current_user),
+
     db: Session = Depends(get_db)
 ):
 
