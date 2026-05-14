@@ -1,8 +1,8 @@
-# Import BaseModel Pydantic
-from pydantic import BaseModel
+# BaseModel Pydantic
+from pydantic import BaseModel, Field
 
 
-# Schéma utilisé pour créer un patient
+# Création patient
 class PatientCreate(BaseModel):
 
     # Identifiant anonymisé
@@ -11,11 +11,28 @@ class PatientCreate(BaseModel):
     # Statut médical
     status: str
 
-    # Niveau de sécurité
-    security_level: int
+    # Niveau sécurité :
+    # 1 = surveillance
+    # 2 = modéré
+    # 3 = critique
+    security_level: int = Field(
+        ge=1,
+        le=3
+    )
 
 
-# Schéma utilisé pour retourner un patient
+# Mise à jour patient
+class PatientUpdate(BaseModel):
+
+    status: str
+
+    security_level: int = Field(
+        ge=1,
+        le=3
+    )
+
+
+# Réponse API
 class PatientResponse(BaseModel):
 
     id: int
@@ -23,6 +40,5 @@ class PatientResponse(BaseModel):
     status: str
     security_level: int
 
-    # Compatibilité SQLAlchemy
     class Config:
         from_attributes = True
